@@ -1,0 +1,8 @@
+torch
+torchvision
+timm
+streamlit
+Pillow
+numpy
+pyyaml
+scipy

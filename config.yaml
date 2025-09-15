@@ -1,0 +1,48 @@
+# --- Project Configuration: Corrected for Your Datasets ---
+
+environment:
+  device: "cpu"
+  num_workers: 0
+
+data:
+  # Paths to the datasets
+  au_air_path: "./datasets/au-air"
+  hit_uav_path: "./datasets/hit-uav-yolo"
+
+  # Use 30% of the AU-AIR dataset as requested
+  au_air_subset_percentage: 0.3
+
+  # --- CORRECTED CLASS NAMES ---
+  # This list now aligns with your dataset.yaml and AU-AIR data.
+  # The model will ignore 'OtherVehicle' and 'DontCare' as they don't
+  # have clear equivalents in the AU-AIR dataset.
+  class_names: ["person", "car", "bicycle"] # Matched to your dataset.yaml
+
+  img_size: [320, 320] # Standardized image size
+
+# (The rest of the config is the same)
+training:
+  batch_size: 2
+  gradient_accumulation_steps: 4
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  epochs: 50
+  num_queries: 50
+  clip_max_norm: 0.1
+
+model:
+  name: "lightweight_multimodal_detr"
+  backbone: "efficientnet_b0"
+  pretrained: true
+  transformer_dim: 256
+  transformer_nhead: 4
+  transformer_num_layers: 2
+
+loss_coefficients:
+  ce: 1.0
+  bbox: 5.0
+  giou: 2.0
+
+demo:
+  model_path: "lightweight_multimodal_detr_best.pth"
+  confidence_threshold: 0.6
